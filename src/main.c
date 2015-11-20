@@ -7,7 +7,7 @@
  * Size       : 10.00 KB
  * Version    : 1.2.0(Base 1.0.0)
  * Role       : Save / edit / delete contact details.
- * Bugs/Issue : Implement  and optimize edit routine / change the output buffer to a dynamic malloc / sanitize input
+ * Bugs/Issue : Sanitize code partitions.
  *
  **/
 
@@ -45,6 +45,7 @@ int aesthetic() {
 }
 
 
+/* Prototype declarations */
 
 void AddMember(char * FirstName, char * LastName, char * Age, char * Address, char * PhoneNumber, char * Title);
 
@@ -56,7 +57,7 @@ void Search();
 
 void View();
 
-
+/* Add a new record to the struct */
 
 void AddMember(char * FirstName, char * LastName, char * Age, char * Address, char * PhoneNumber, char * Title) {
 
@@ -118,7 +119,7 @@ void AddMember(char * FirstName, char * LastName, char * Age, char * Address, ch
 
 
 
-
+/* Delete a specified record from the struct, need to shift the struct positions correctly */
 
 void DeleteMember() {
 
@@ -190,6 +191,7 @@ void DeleteMember() {
 	}
 }
 
+/* Edit a record from the struct, need to load a copy of the struct with malloc, then edit and patch over */
 
 void EditMember() {
 
@@ -404,7 +406,7 @@ void EditMember() {
 
 }
 
-
+/* Search the binary file for a specified record from the stored struct */
 
 void Search() {
 
@@ -448,7 +450,8 @@ void Search() {
 
 }
 
-
+/* View the complete list of structs from the binary file */
+ 
 void View() {
 
 
@@ -487,7 +490,7 @@ void View() {
 
 
 
-
+/* Entry point */
 
 
 
