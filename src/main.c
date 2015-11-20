@@ -4,7 +4,7 @@
  * File       : main.c
  * Author     : Viam
  * Language   : C
- * Size       : 10.00 KB
+ * Size       : 19.44 KB
  * Version    : 1.2.0(Base 1.0.0)
  * Role       : Save / edit / delete contact details.
  * Bugs/Issue : Sanitize code partitions.
