@@ -26,14 +26,20 @@
 
 /*Get File size, accepts pointer to the file descriptor */
 
+int FileSize(FILE * FileHandle) {
 
+	int start = ftell(FileHandle);
+	fseek(FileHandle, 0, SEEK_END);
+	int size = ftell(FileHandle);
+	fseek(FileHandle, start, SEEK_SET);
+	return size;
+}
 
 /*Background,foreground and text color */
 
 int aesthetic() {
 
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
+
 	return 0;
 }
 
