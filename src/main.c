@@ -39,7 +39,8 @@ int FileSize(FILE * FileHandle) {
 
 int aesthetic() {
 
-
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
 	return 0;
 }
 
