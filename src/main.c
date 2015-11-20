@@ -123,18 +123,7 @@ void AddMember(char * FirstName, char * LastName, char * Age, char * Address, ch
 
 void DeleteMember() {
 
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
 
-	FILE * ReadHeader;
-	struct FileFormat * metadata = malloc(sizeof(struct FileFormat));
-	ReadHeader = fopen("CMSData.vf", "rb");
-	fread(metadata, sizeof(FileFormat), 1, ReadHeader);
-	FILE * ReaderPointer;
-	ReaderPointer = fopen("CMSData.vf", "rb");
-	struct Contact people[metadata - > FileSections];
-	int size = FileSize(ReadHeader);
-	fclose(ReadHeader);
 
 	printf("Type the FirstName of the contact you wish to delete.\n");
 	fseek(ReaderPointer, sizeof(struct FileFormat), SEEK_SET); // data chunks begin right after header part
