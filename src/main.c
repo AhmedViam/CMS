@@ -12,13 +12,13 @@
  **/
 
 
-#include <stdio.h> 
-#include <conio.h> 
-#include <stdlib.h> 
-#include <stdbool.h> 
-#include <string.h> 
-#include <windows.h> 
-#include <unistd.h> 
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <windows.h>
+#include <unistd.h>
 #include "Constants.h"
 #define version 2.0.1
 
@@ -83,19 +83,19 @@ void AddMember(char * FirstName, char * LastName, char * Age, char * Address, ch
 	fread(Headerwrite, sizeof(FileFormat), 1, stropenr);
 
 
-	strcpy(update - > FileName, "CustomFormat");
-	update - > FileSize = 4;
-	strcpy(update - > FileType, "CMSDATA");
-	strcpy(update - > FileVersion, "3.0.2");
-	update - > FileSections = (1 + Headerwrite - > FileSections); // Increment the section count identifier since a new record is added
-	update - > ChunkSize = 43;
+	strcpy(update->FileName, "CustomFormat");
+	update->FileSize = 4;
+	strcpy(update->FileType, "CMSDATA");
+	strcpy(update->FileVersion, "3.0.2");
+	update->FileSections = (1 + Headerwrite->FileSections); // Increment the section count identifier since a new record is added
+	update->ChunkSize = 43;
 
-	struct Contact container[Headerwrite - > FileSections]; // To hold the existing array of structs found in the file.
+	struct Contact container[Headerwrite->FileSections]; // To hold the existing array of structs found in the file.
 	// Make sure the array size is correct, which can be extracted from
 	// file header, or else range and byte size to extract data will be wrong
 	strcont = fopen("CMSData.vf", "rb");
 	fseek(strcont, sizeof(struct FileFormat), SEEK_SET); // Move the file descriptor to the correct position, next to file header section
-	fread(container, sizeof(Contact), Headerwrite - > FileSections, strcont);
+	fread(container, sizeof(Contact), Headerwrite->FileSections, strcont);
 
 	fclose(strcont);
 	fclose(stropenr);
@@ -132,17 +132,17 @@ void DeleteMember() {
 	fread(metadata, sizeof(FileFormat), 1, ReadHeader);
 	FILE * ReaderPointer;
 	ReaderPointer = fopen("CMSData.vf", "rb");
-	struct Contact people[metadata - > FileSections];
+	struct Contact people[metadata->FileSections];
 	int size = FileSize(ReadHeader);
 	fclose(ReadHeader);
 
 	printf("Type the FirstName of the contact you wish to delete.\n");
 	fseek(ReaderPointer, sizeof(struct FileFormat), SEEK_SET); // data chunks begin right after header part
-	fread(people, sizeof(block), metadata - > FileSections, ReaderPointer);
+	fread(people, sizeof(block), metadata->FileSections, ReaderPointer);
 	scanf("%s", NameInput);
 
 
-	for (counter = 0; counter < metadata - > FileSections; counter++) {
+	for (counter = 0; counter < metadata->FileSections; counter++) {
 		if (strcmp(people[counter].FirstName, NameInput) == 0) {
 			printf("Below is the user found\n");
 			printf("\n%s | %s | %s | %s | %s | %s \n", people[counter].FirstName, people[counter].LastName, people[counter].Age, people[counter].Address, people[counter].PhoneNumber, people[counter].Title);
@@ -157,24 +157,24 @@ void DeleteMember() {
 					  get the correct index and shift the remaining structs forward.
 					 	*/
 			//if (strcmp(input, "P") == 0) {
-			for (c = counter; c < metadata - > FileSections; c++) {
+			for (c = counter; c < metadata->FileSections; c++) {
 				people[c] = people[c + 1];
 				//}
 
 				FILE * output;
 
 				output = fopen("CMSData.vf", "wb");
-				strcpy(metadata - > FileName, "CustomFormat");
-				metadata - > FileSize = size;
-				strcpy(metadata - > FileVersion, "3.0.2");
-				strcpy(metadata - > FileType, "CMSDATA");
-				metadata - > FileSections = metadata - > FileSections - 1; // Decrement the section count since a record has been deleted
-				metadata - > ChunkSize = 1025;
+				strcpy(metadata->FileName, "CustomFormat");
+				metadata->FileSize = size;
+				strcpy(metadata->FileVersion, "3.0.2");
+				strcpy(metadata->FileType, "CMSDATA");
+				metadata->FileSections = metadata->FileSections - 1; // Decrement the section count since a record has been deleted
+				metadata->ChunkSize = 1025;
 
 				fwrite(metadata, sizeof(struct FileFormat), 1, output);
 				fclose(output);
 				output = fopen("CMSData.vf", "ab");
-				fwrite(people, sizeof(struct Contact), (metadata - > FileSections), output);
+				fwrite(people, sizeof(struct Contact), (metadata->FileSections), output);
 				fclose(output);
 				return;
 
@@ -203,16 +203,16 @@ void EditMember() {
 	fread(metadata, sizeof(FileFormat), 1, ReadHeader);
 	FILE * ReaderPointer;
 	ReaderPointer = fopen("CMSData.vf", "rb");
-	struct Contact people[metadata - > FileSections];
+	struct Contact people[metadata->FileSections];
 	int size = FileSize(ReadHeader);
 	fclose(ReadHeader);
 
 	printf("Type the FirstName of the contact you wish to Edit.\n");
 	fseek(ReaderPointer, sizeof(struct FileFormat), SEEK_SET); // data chunks begin right after header part
-	fread(people, sizeof(block), metadata - > FileSections, ReaderPointer);
+	fread(people, sizeof(block), metadata->FileSections, ReaderPointer);
 	scanf("%s", NameInput);
 
-	for (counter = 0; counter < metadata - > FileSections; counter++) {
+	for (counter = 0; counter < metadata->FileSections; counter++) {
 		if (strcmp(people[counter].FirstName, NameInput) == 0) {
 			printf("Below is the user found\n");
 			printf("\n%s | %s | %s | %s | %s | %s \n", people[counter].FirstName, people[counter].LastName, people[counter].Age, people[counter].Address, people[counter].PhoneNumber, people[counter].Title);
@@ -235,17 +235,17 @@ void EditMember() {
 				FILE * output;
 
 				output = fopen("CMSData.vf", "wb");
-				strcpy(metadata - > FileName, "CustomFormat");
-				metadata - > FileSize = size;
-				strcpy(metadata - > FileVersion, "3.0.2");
-				strcpy(metadata - > FileType, "CMSDATA");
+				strcpy(metadata->FileName, "CustomFormat");
+				metadata->FileSize = size;
+				strcpy(metadata->FileVersion, "3.0.2");
+				strcpy(metadata->FileType, "CMSDATA");
 				//metadata->FileSections = metadata->FileSections - 1; // Decrement the section count since a record has been deleted
-				metadata - > ChunkSize = 1025;
+				metadata->ChunkSize = 1025;
 
 				fwrite(metadata, sizeof(struct FileFormat), 1, output);
 				fclose(output);
 				output = fopen("CMSData.vf", "ab");
-				fwrite(people, sizeof(struct Contact), (metadata - > FileSections), output);
+				fwrite(people, sizeof(struct Contact), (metadata->FileSections), output);
 				fclose(output);
 				return;
 			}
@@ -262,17 +262,17 @@ void EditMember() {
 				FILE * output;
 
 				output = fopen("CMSData.vf", "wb");
-				strcpy(metadata - > FileName, "CustomFormat");
-				metadata - > FileSize = size;
-				strcpy(metadata - > FileVersion, "3.0.2");
-				strcpy(metadata - > FileType, "CMSDATA");
+				strcpy(metadata->FileName, "CustomFormat");
+				metadata->FileSize = size;
+				strcpy(metadata->FileVersion, "3.0.2");
+				strcpy(metadata->FileType, "CMSDATA");
 				//metadata->FileSections = metadata->FileSections - 1; // Decrement the section count since a record has been deleted
-				metadata - > ChunkSize = 1025;
+				metadata->ChunkSize = 1025;
 
 				fwrite(metadata, sizeof(struct FileFormat), 1, output);
 				fclose(output);
 				output = fopen("CMSData.vf", "ab");
-				fwrite(people, sizeof(struct Contact), (metadata - > FileSections), output);
+				fwrite(people, sizeof(struct Contact), (metadata->FileSections), output);
 				fclose(output);
 				return;
 			}
@@ -289,17 +289,17 @@ void EditMember() {
 				FILE * output;
 
 				output = fopen("CMSData.vf", "wb");
-				strcpy(metadata - > FileName, "CustomFormat");
-				metadata - > FileSize = size;
-				strcpy(metadata - > FileVersion, "3.0.2");
-				strcpy(metadata - > FileType, "CMSDATA");
+				strcpy(metadata->FileName, "CustomFormat");
+				metadata->FileSize = size;
+				strcpy(metadata->FileVersion, "3.0.2");
+				strcpy(metadata->FileType, "CMSDATA");
 				//metadata->FileSections = metadata->FileSections - 1; // Decrement the section count since a record has been deleted
-				metadata - > ChunkSize = 1025;
+				metadata->ChunkSize = 1025;
 
 				fwrite(metadata, sizeof(struct FileFormat), 1, output);
 				fclose(output);
 				output = fopen("CMSData.vf", "ab");
-				fwrite(people, sizeof(struct Contact), (metadata - > FileSections), output);
+				fwrite(people, sizeof(struct Contact), (metadata->FileSections), output);
 				fclose(output);
 				return;
 			}
@@ -317,17 +317,17 @@ void EditMember() {
 				FILE * output;
 
 				output = fopen("CMSData.vf", "wb");
-				strcpy(metadata - > FileName, "CustomFormat");
-				metadata - > FileSize = size;
-				strcpy(metadata - > FileVersion, "3.0.2");
-				strcpy(metadata - > FileType, "CMSDATA");
+				strcpy(metadata->FileName, "CustomFormat");
+				metadata->FileSize = size;
+				strcpy(metadata->FileVersion, "3.0.2");
+				strcpy(metadata->FileType, "CMSDATA");
 				//metadata->FileSections = metadata->FileSections - 1; // Decrement the section count since a record has been deleted
-				metadata - > ChunkSize = 1025;
+				metadata->ChunkSize = 1025;
 
 				fwrite(metadata, sizeof(struct FileFormat), 1, output);
 				fclose(output);
 				output = fopen("CMSData.vf", "ab");
-				fwrite(people, sizeof(struct Contact), (metadata - > FileSections), output);
+				fwrite(people, sizeof(struct Contact), (metadata->FileSections), output);
 				fclose(output);
 				return;
 			}
@@ -345,17 +345,17 @@ void EditMember() {
 				FILE * output;
 
 				output = fopen("CMSData.vf", "wb");
-				strcpy(metadata - > FileName, "CustomFormat");
-				metadata - > FileSize = size;
-				strcpy(metadata - > FileVersion, "3.0.2");
-				strcpy(metadata - > FileType, "CMSDATA");
+				strcpy(metadata->FileName, "CustomFormat");
+				metadata->FileSize = size;
+				strcpy(metadata->FileVersion, "3.0.2");
+				strcpy(metadata->FileType, "CMSDATA");
 				//metadata->FileSections = metadata->FileSections - 1; // Decrement the section count since a record has been deleted
-				metadata - > ChunkSize = 1025;
+				metadata->ChunkSize = 1025;
 
 				fwrite(metadata, sizeof(struct FileFormat), 1, output);
 				fclose(output);
 				output = fopen("CMSData.vf", "ab");
-				fwrite(people, sizeof(struct Contact), (metadata - > FileSections), output);
+				fwrite(people, sizeof(struct Contact), (metadata->FileSections), output);
 				fclose(output);
 				return;
 			}
@@ -373,17 +373,17 @@ void EditMember() {
 				FILE * output;
 
 				output = fopen("CMSData.vf", "wb");
-				strcpy(metadata - > FileName, "CustomFormat");
-				metadata - > FileSize = size;
-				strcpy(metadata - > FileVersion, "3.0.2");
-				strcpy(metadata - > FileType, "CMSDATA");
+				strcpy(metadata->FileName, "CustomFormat");
+				metadata->FileSize = size;
+				strcpy(metadata->FileVersion, "3.0.2");
+				strcpy(metadata->FileType, "CMSDATA");
 				//metadata->FileSections = metadata->FileSections - 1; // Decrement the section count since a record has been deleted
-				metadata - > ChunkSize = 1025;
+				metadata->ChunkSize = 1025;
 
 				fwrite(metadata, sizeof(struct FileFormat), 1, output);
 				fclose(output);
 				output = fopen("CMSData.vf", "ab");
-				fwrite(people, sizeof(struct Contact), (metadata - > FileSections), output);
+				fwrite(people, sizeof(struct Contact), (metadata->FileSections), output);
 				fclose(output);
 				return;
 
@@ -420,17 +420,17 @@ void Search() {
 	fread(metadata, sizeof(FileFormat), 1, ReadHeader);
 	FILE * ReaderPointer;
 	ReaderPointer = fopen("CMSData.vf", "rb");
-	struct Contact people[metadata - > FileSections];
+	struct Contact people[metadata->FileSections];
 	int size = FileSize(ReadHeader);
 	fclose(ReadHeader);
 
 	printf("Type the FirstName of the contact\n");
 	scanf("%s", NameInput);
 	fseek(ReaderPointer, sizeof(struct FileFormat), SEEK_SET);
-	fread(people, sizeof(block), metadata - > FileSections, ReaderPointer);
+	fread(people, sizeof(block), metadata->FileSections, ReaderPointer);
 
 	/* Access the struct data with the correct offset with relation to section count */
-	for (counter = 0; counter < metadata - > FileSections; counter++) {
+	for (counter = 0; counter < metadata->FileSections; counter++) {
 		if (strcmp(people[counter].FirstName, NameInput) == 0) {
 			printf("\n%s | %s | %s | %s | %s | %s \n", people[counter].FirstName, people[counter].LastName, people[counter].Age, people[counter].Address, people[counter].PhoneNumber, people[counter].Title);
 			found = true;
@@ -451,7 +451,7 @@ void Search() {
 }
 
 /* View the complete list of structs from the binary file */
- 
+
 void View() {
 
 
@@ -464,16 +464,16 @@ void View() {
 	fread(metadata, sizeof(FileFormat), 1, ReadHeader);
 	FILE * ReaderPointer;
 	ReaderPointer = fopen("CMSData.vf", "rb");
-	struct Contact people[metadata - > FileSections];
+	struct Contact people[metadata->FileSections];
 	int size = FileSize(ReadHeader);
 	fclose(ReadHeader);
 
 
-	if (metadata - > FileSections != 0) {
+	if (metadata->FileSections != 0) {
 		printf("Retrieving contact list ...\n");
 		fseek(ReaderPointer, sizeof(struct FileFormat), SEEK_SET);
-		fread(people, sizeof(block), metadata - > FileSections, ReaderPointer);
-		for (counter = 0; counter < metadata - > FileSections; counter++) {
+		fread(people, sizeof(block), metadata->FileSections, ReaderPointer);
+		for (counter = 0; counter < metadata->FileSections; counter++) {
 			printf("\n%s | %s | %s | %s | %s | %s \n", people[counter].FirstName, people[counter].LastName, people[counter].Age, people[counter].Address, people[counter].PhoneNumber, people[counter].Title);
 			found = true;
 
@@ -518,17 +518,17 @@ int main() {
 
 		printf("%*.*s%s\n", pad, pad, " ", "CMS Data repository is being loaded");
 		Sleep(2000);
-		printf("%*.*sRepository size %d bytes version %s Number of records %d \n", pads, pads, " ", size, Header - > FileVersion, Header - > FileSections);
+		printf("%*.*sRepository size %d bytes version %s Number of records %d \n", pads, pads, " ", size, Header->FileVersion, Header->FileSections);
 		fclose(ReadPointer);
 
 	} else {
 
 		ReadPointer = fopen("CMSData.vf", "wb");
-		strcpy(init - > FileName, "CustomFormat");
-		strcpy(init - > FileVersion, "2.0.2");
-		strcpy(init - > FileType, "CMSDATA");
-		init - > FileSections = 0;
-		init - > ChunkSize = 1025;
+		strcpy(init->FileName, "CustomFormat");
+		strcpy(init->FileVersion, "2.0.2");
+		strcpy(init->FileType, "CMSDATA");
+		init->FileSections = 0;
+		init->ChunkSize = 1025;
 
 		printf("CMSData file not found...\n");
 		Sleep(3000);
@@ -553,7 +553,7 @@ int main() {
 		ReadPointer = fopen("CMSData.vf", "rb");
 		struct FileFormat * Header = malloc(sizeof(struct FileFormat));
 		fread(Header, sizeof(FileFormat), 1, ReadPointer);
-		printf("%*.*sRepository size %d bytes version %s Number of records %d \n", pads, pads, " ", FileSize(ReadPointer), Header - > FileVersion, Header - > FileSections);
+		printf("%*.*sRepository size %d bytes version %s Number of records %d \n", pads, pads, " ", FileSize(ReadPointer), Header->FileVersion, Header->FileSections);
 		fclose(ReadPointer);
 
 
@@ -575,7 +575,7 @@ int main() {
 
 		FILE * ReaderPointer;
 		ReaderPointer = fopen("CMSData.vf", "rb");
-		struct Contact people[metadata - > FileSections];
+		struct Contact people[metadata->FileSections];
 
 
 
@@ -666,7 +666,7 @@ int main() {
 				fread(Header, sizeof(FileFormat), 1, file);
 				fclose(file);
 			}
-			printf("%s %d %s %d %d\n", Header - > FileName, Header - > FileSize, Header - > FileType, Header - > FileSections, Header - > ChunkSize);
+			printf("%s %d %s %d %d\n", Header->FileName, Header->FileSize, Header->FileType, Header->FileSections, Header->ChunkSize);
 			Sleep(2000);
 			/* add edit routine here */
 		}
