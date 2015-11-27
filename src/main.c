@@ -4,7 +4,7 @@
  * File       : main.c
  * Author     : Viam
  * Language   : C
- * Size       : 19.1 KB
+ * Size       : 19.4 KB
  * Version    : 1.2.0(Base 1.0.0)
  * Role       : Add / Save / edit / delete contact details.
  * Bugs/Issue : Sanitize code partitions.
@@ -396,6 +396,8 @@ void EditMember() {
 			}
 
 			printf("Wrong input\n");
+			break;
+			fflush(stdin);
 		} else {
 			printf("Could not find a match");
 			Sleep(900);
@@ -515,7 +517,14 @@ int main() {
 
 		struct FileFormat * Header = malloc(sizeof(struct FileFormat)); // Read meta data from file header
 		fread(Header, sizeof(FileFormat), 1, ReadPointer);
-
+        if(strcmp(Header->FileName, "CustomFormat") != 0){
+            HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
+            printf("File type is wrong or corrupted, The Header->Filename returned %s please delete the file to generate a new repository\n",Header->FileName);
+            fclose(ReadPointer);
+            Sleep(5000);
+            return 0;
+        }
 		printf("%*.*s%s\n", pad, pad, " ", "CMS Data repository is being loaded");
 		Sleep(2000);
 		printf("%*.*sRepository size %d bytes version %s Number of records %d \n", pads, pads, " ", size, Header->FileVersion, Header->FileSections);
@@ -558,7 +567,7 @@ int main() {
 
 
 
-		printf("For Record related press R for Adding a record press A\n");
+		printf("For Record related press R, for Adding a new record press A, to exit press B\n");
 		scanf("%s", & input);
 		//if (strcmp(input, "R") == 0) {
 		system("cls");
@@ -583,10 +592,15 @@ int main() {
 
 		if (strcmp(input, "R") == 0) {
 			printf("\nWelcome to CMS Dashboard\n");
-			printf("What would you like to do?\n\n1. To view all contacts press V\n2. To search for a contact press S\n3. To delete a contact press D\n4. To edit a record press E\n");
+			printf("What would you like to do?\n\n1. To view all contacts press V\n2. To search for a contact press S\n3. To delete a contact press D\n4. To edit a record press E\n5. To return press Q\n");
 			scanf("%s", & ans);
 			switch (ans) {
 
+                case 'Q':
+					{
+
+						break;
+					}
 
 				case 'S':
 					{
@@ -649,6 +663,12 @@ int main() {
 		}
 
 
+        if (strcmp(input, "B") == 0) {
+            printf("Exiting..");
+            Sleep(2000);
+            return 0;
+
+        }
 
 
 
