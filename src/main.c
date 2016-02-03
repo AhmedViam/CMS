@@ -104,7 +104,6 @@ void AddMember(char * FirstName, char * LastName, char * Age, char * Address, ch
 	stropenw = fopen("CMSData.vf", "wb");
 	fwrite(update, sizeof(struct FileFormat), 1, stropenw);
 	fclose(stropenw);
-
 	FILE * data;
 
 	data = fopen("CMSData.vf", "ab+");
@@ -514,9 +513,9 @@ int main() {
 
 
 	if (access("CMSData.vf", F_OK) != -1) {
-
 		struct FileFormat * Header = malloc(sizeof(struct FileFormat)); // Read meta data from file header
 		fread(Header, sizeof(FileFormat), 1, ReadPointer);
+		
         if(strcmp(Header->FileName, "CustomFormat") != 0){
             HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED);
@@ -670,11 +669,6 @@ int main() {
 
         }
 
-
-
-
-
-
 		/*Just to read the file header for debug purposes */
 
 		if (strcmp(input, "O") == 0) {
@@ -691,12 +685,8 @@ int main() {
 			/* add edit routine here */
 		}
 
-
-
 	} while (true);
 	//printf("Unknown input! exiting...");
 	return 0;
-
-
 
 }
