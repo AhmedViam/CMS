@@ -42,9 +42,9 @@ Contact;
 
 
         char ans;
-		char input[20];
-		char NameInput[20];
-		int counter;
-		int c = 0;
+	char input[20];
+	char NameInput[20];
+	int counter;
+	int c = 0;
         bool found = false;
         struct Contact block;
